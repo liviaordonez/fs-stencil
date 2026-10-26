@@ -2,6 +2,7 @@
 
 #include "pframe.h"
 #include "util/string.h"
+#include "slab_allocator.h"
 
 /*
  * TODO: implement me!

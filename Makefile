@@ -16,8 +16,8 @@ empty-iso:
 fs: empty-iso
 	python3 fs-maker.py
 
-test: $(TEST)
-	sh test/run_tests.sh
+test: fs $(TEST)
+	$(TEST)
 
 clean:
 	rm -f bin/*

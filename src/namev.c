@@ -1,5 +1,6 @@
 #include "vfs.h"
 #include "vnode.h"
+#include "dirent.h"
 
 /*
  * TODO: implement me!
