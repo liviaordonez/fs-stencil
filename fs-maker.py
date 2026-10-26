@@ -111,4 +111,3 @@ if __name__ == "__main__":
     img, nodes = build()
     with open(path, "wb") as f:
         f.write(img.bytes())
-    print("wrote %s (%d blocks); free-list nodes in blocks %s" % (path, TOTAL_BLOCKS, nodes))
