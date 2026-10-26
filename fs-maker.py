@@ -17,7 +17,6 @@ MAGIC = 134
 NO_INODE = -1
 NAME_LEN = 24
 
-MODE_FREE, MODE_FILE, MODE_DIR = 0, 1, 2
 ROOT_INODE = 0
 
 
@@ -30,9 +29,9 @@ def pack_super(free_inode, nfree, free_blocks, root, version=1):
     return longs(MAGIC, free_inode, nfree, *free_blocks, root, NUM_INODES, version)
 
 
-def pack_inode(un, number, count, direct, indirect, mode):
+def pack_inode(un, number, count, direct, indirect):
     assert len(direct) == NDIRECT
-    return longs(un, number, count, *direct, indirect, mode)
+    return longs(un, number, count, *direct, indirect)
 
 
 def pack_dirent(ino, next_off, name):
@@ -83,7 +82,7 @@ def build():
     # root directory: first inode, first data block, "." and ".."
     root_direct = [root_data] + [0] * (NDIRECT - 1)
     img.put(INODE_START + ROOT_INODE,
-            pack_inode(2 * DIRENT_SIZE, ROOT_INODE, 2, root_direct, 0, MODE_DIR))
+            pack_inode(2 * DIRENT_SIZE, ROOT_INODE, 2, root_direct, 0))
     img.put(root_data,
             pack_dirent(ROOT_INODE, 1 * DIRENT_SIZE, ".") +
             pack_dirent(ROOT_INODE, 2 * DIRENT_SIZE, ".."))
@@ -91,7 +90,7 @@ def build():
     # all other inodes are free and form a list
     for i in range(ROOT_INODE + 1, NUM_INODES):
         nxt = i + 1 if i + 1 < NUM_INODES else NO_INODE
-        img.put(INODE_START + i, pack_inode(nxt, i, 0, [0] * NDIRECT, 0, MODE_FREE))
+        img.put(INODE_START + i, pack_inode(nxt, i, 0, [0] * NDIRECT, 0))
 
     # superblock
     img.put(0, pack_super(ROOT_INODE + 1, nfree, free, ROOT_INODE))

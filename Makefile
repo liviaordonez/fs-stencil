@@ -1,7 +1,7 @@
 CC      = gcc
-CFLAGS  = -std=gnu11 -g -O0 -Wall -Wno-unused-function -fcommon -fno-builtin \
-          -fno-tree-loop-distribute-patterns -I. -Iinclude
-SRCS    = $(wildcard src/*.c) sys/disk/disk.c sys/mem/mem.c $(wildcard util/*.c)
+CFLAGS  = -std=gnu11 -g -O0 -Wall -Wno-unused-function -Wno-builtin-declaration-mismatch -fcommon -I. -Iinclude
+SRCS    = $(wildcard src/*.c) sys/disk/disk.c sys/mem/mem.c \
+          util/list.c util/spinlock.c util/string.c
 TEST    = bin/fs_test
 
 all: $(TEST)

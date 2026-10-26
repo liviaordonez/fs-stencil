@@ -71,7 +71,7 @@ void write_disk_block(long frame_id, const char *buf) {
     char disk_name[MAX_DISK_NAME_LEN];
     get_disk_name(disk_name);
 
-    FILE *disk = fopen(disk_name, "w+");
+    FILE *disk = fopen(disk_name, "r+");
     if (!disk) {
         fprintf(stderr, "Could not open disk...\n");
         __builtin_trap();
@@ -80,7 +80,7 @@ void write_disk_block(long frame_id, const char *buf) {
     // move the cursor to the location in the disk
     fseek(disk, FRAME_LEN * frame_id, SEEK_SET);
 
-    long n = strlen(buf) > FRAME_LEN ? FRAME_LEN : strlen(buf);
+    long n = FRAME_LEN;
     long bytes_written = 0;
     long result;
     while ((result = fwrite(buf, 1, n - bytes_written, disk)) > 0) {

@@ -14,8 +14,8 @@ int strlen(const char *str) {
 }
 
 void *memcpy(void *dest, const void *src, long n) {
-    for (int len = 0; len < n; len++) {S
-        dest[i] = src[i];
+    for (int i = 0; i < n; i++) {
+        ((char *) dest)[i] = ((const char *) src)[i];
     }
 
     return dest;
